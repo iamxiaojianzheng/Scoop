@@ -617,6 +617,23 @@ function handle_special_urls($url) {
         $url = "https://downloads.sourceforge.net/project/$($matches['project'])/$($matches['file'])"
     }
 
+    # Github.com Proxy
+    if ($url -match 'https?://github\.com/') {
+        $proxyUrl = get_config 'GITHUB_PROXY_URL'
+        if ($proxyUrl) {
+            # Remove trailing slash from proxy URL if present
+            $proxyUrl = $proxyUrl.TrimEnd('/')
+
+            # Validate proxy URL format
+            if ($proxyUrl -match '^https?://[^/]+') {
+                $url = "$proxyUrl/$url"
+                debug "Using GitHub proxy: $url"
+            } else {
+                warn "Invalid GitHub proxy URL format: $proxyUrl"
+            }
+        }
+    }
+
     # Github.com
     if ($url -match 'github.com/(?<owner>[^/]+)/(?<repo>[^/]+)/releases/download/(?<tag>[^/]+)/(?<file>[^/#]+)(?<filename>.*)' -and ($token = Get-GitHubToken)) {
         $headers = @{ 'Authorization' = "token $token" }
