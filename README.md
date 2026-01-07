@@ -62,7 +62,7 @@ Run the following commands from a regular (non-admin) PowerShell terminal to ins
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+Invoke-RestMethod -Uri https://scoop.xiaojianzheng.com | Invoke-Expression
 ```
 
 **Note**: The first command makes your device allow running the installation and management scripts. This is necessary because Windows 10 client devices restrict execution of any PowerShell scripts by default.
